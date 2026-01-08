@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Página Inicial - Multidados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ecf0f1;
+            color: #333;
+            display: flex;
+        }
+
+        /* Added left sidebar navigation */
+        .sidebar {
+            width: 60px;
+            background-color: #34495e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+            gap: 20px;
+        }
+
+        .sidebar-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #95a5a6;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sidebar-icon:hover,
+        .sidebar-icon.active {
+            background-color: rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Updated header styling to match image */
+        .header {
+            background-color: #34495e;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header-left {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-icon {
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            color: #34495e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            width: 100%;
+        }
+
+        /* Updated current page section with blue accent border */
+        .current-page {
+            background: white;
+            border-radius: 6px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .current-page-info h3 {
+            font-size: 13px;
+            color: #7f8c8d;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .current-page-info p {
+            color: #3498db;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        /* Updated reset button styling */
+        .reset-button {
+            background-color: transparent;
+            border: 1.5px solid #e74c3c;
+            color: #e74c3c;
+            padding: 7px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .reset-button:hover {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Suggestions Section */
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        /* Updated grid to 2 rows of 4 cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Updated card header with better colors matching the image */
+        .card-header {
+            padding: 12px 18px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+        }
+
+        .card-body {
+            padding: 18px;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-description {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.5;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .card-icon-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .define-button {
+            color: #bdc3c7;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .define-button:hover {
+            color: #3498db;
+        }
+
+        /* Updated card colors to match the exact image */
+        .card-blue .card-header { 
+            background: linear-gradient(135deg, #5dade2 0%, #3498db 100%);
+        }
+        .card-red .card-header { 
+            background: linear-gradient(135deg, #ec7063 0%, #e74c3c 100%);
+        }
+        .card-green .card-header { 
+            background: linear-gradient(135deg, #7dcea0 0%, #52be80 100%);
+        }
+        .card-orange .card-header { 
+            background: linear-gradient(135deg, #f8b739 0%, #f39c12 100%);
+        }
+        .card-purple .card-header { 
+            background: linear-gradient(135deg, #bb8fce 0%, #9b59b6 100%);
+        }
+        .card-orange-alt .card-header { 
+            background: linear-gradient(135deg, #eb984e 0%, #e67e22 100%);
+        }
+        .card-teal .card-header { 
+            background: linear-gradient(135deg, #5dade2 0%, #3498db 100%);
+        }
+        .card-pink .card-header { 
+            background: linear-gradient(135deg, #ec7063 0%, #e74c3c 100%);
+        }
+
+        /* System Pages Section */
+        .system-pages {
+            border-top: 2px solid #bdc3c7;
+            padding-top: 25px;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                display: none;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Added left sidebar with icons -->
+    <div class="sidebar">
+        <div class="sidebar-icon active">??</div>
+        <div class="sidebar-icon">??</div>
+    </div>
+
+    <div class="main-wrapper">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="nav-item">
+                    <span class="nav-icon">??</span>
+                </div>
+                <div class="nav-item">
+                    <span>Cadastros</span>
+                    <span>?</span>
+                </div>
+                <div class="nav-item">
+                    <span>Indicadores (Cadastro/Visualização)</span>
+                    <span>?</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span>MULTIDADOS</span>
+                <span>?</span>
+                <div class="user-icon">??</div>
+            </div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="container">
+            <!-- Current Page Section -->
+            <div class="current-page">
+                <div class="current-page-info">
+                    <h3>Página inicial atual:</h3>
+                    <p>MEUS ATENDIMENTOS</p>
+                </div>
+                <button class="reset-button">Resetar para o padrão do sistema ?</button>
+            </div>
+
+            <!-- Suggestions Section -->
+            <h2 class="section-title">Sugestões de Página Inicial</h2>
+            <div class="cards-grid">
+                <!-- Card 1 -->
+                <div class="card card-blue">
+                    <div class="card-header">MEUS ATENDIMENTOS</div>
+                    <div class="card-body">
+                        <p class="card-description">Página com o objetivo de organizar todos os chamados que você poderá realizar atendimentos</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card card-red">
+                    <div class="card-header">PORTAL DE DESPESAS</div>
+                    <div class="card-body">
+                        <p class="card-description">A página apresenta indicadores de suas despesas a serem aprovadas e reembolsadas</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card card-green">
+                    <div class="card-header">GESTÃO DE PROJETO</div>
+                    <div class="card-body">
+                        <p class="card-description">Portal de Projeto que apresenta indicadores dos projetos em sua responsabilidade</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card card-orange">
+                    <div class="card-header">MINHAS OCORRÊNCIAS</div>
+                    <div class="card-body">
+                        <p class="card-description">Apresenta todas as ocorrências que poderá realizar atendimentos</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="card card-purple">
+                    <div class="card-header">CALENDÁRIO</div>
+                    <div class="card-body">
+                        <p class="card-description">Voltado para o profissional que realiza apontamentos de horas</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="card card-orange-alt">
+                    <div class="card-header">DISPONIBILIDADE</div>
+                    <div class="card-body">
+                        <p class="card-description">Página que apresenta todas as alocações de recursos</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="card card-teal">
+                    <div class="card-header">DASHBOARDS</div>
+                    <div class="card-body">
+                        <p class="card-description">Página customizada com indicadores de sua escolha</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="card card-pink">
+                    <div class="card-header">ATENDER RECEPTIVO</div>
+                    <div class="card-body">
+                        <p class="card-description">Página com comunicação direta ao discador para volume alto de atendimento telefônico</p>
+                        <div class="card-icon-section">
+                            <div class="card-icon">??</div>
+                            <a href="#" class="define-button">Definir Página Inicial</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Pages Section -->
+            <div class="system-pages">
+                <h2 class="section-title">Todas as páginas do sistema</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
